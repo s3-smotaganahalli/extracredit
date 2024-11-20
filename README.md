@@ -127,4 +127,59 @@ Ultrafast bootstrap approximation results written to:
 
 Date and Time: Thu Sep 26 19:32:26 2024
 ```
-### Lab 6
+### Lab 6 Reconciling a Gene and Species Tree
+```
+git clone https://github.com/Bio312/lab06-$MYGIT
+cd lab06-$MYGIT
+
+Notung package
+java -jar ~/tools/Notung-3.0_24-beta/Notung-3.0_24-beta.jar --help
+ 
+prune command to isolate ingroups
+gotree prune -i ~/lab06-$MYGIT/globins/globins.homologsf.outgroupbeta.treefile -o ~/lab06-$MYGIT/globins/globins.homologsf.pruned.treefile H.sapiens_HBG1_hemoglobin_subunit_gamma1 H.sapiens_HBG2_hemoglobin_subunit_gamma2 H.sapiens_HBB_hemoglobin_subunit_beta H.sapiens_HBD_hemoglobin_subunit_delta
+
+name and save tree
+mkdir ~/lab06-$MYGIT/peptidase
+cp ~/lab05-$MYGIT/peptidase/peptidase.homologs.al.mid.treefile
+
+Notung Reconciliation
+java -jar ~/tools/Notung-3.0_24-beta/Notung-3.0_24-beta.jar -s ~/lab05-$MYGIT/species.tre -g ~/lab06-$MYGITpeptidase/peptidase.homologsf.pruned.treefile --reconcile --speciestag prefix --savepng --events --outputdir ~/lab06-$MYGIT/peptidase/
+
+internal node search
+grep NOTUNG-SPECIES-TREE ~/lab06-$MYGIT/peptidase/peptidase.homologsf.pruned.treefile.rec.ntg | sed -e "s/^\[&&NOTUNG-SPECIES-TREE//" -e "s/\]/;/" | nw_display -
+
+generates RecPhyloXML object 
+python2.7 ~/tools/recPhyloXML/python/NOTUNGtoRecPhyloXML.py -g ~/lab06-$MYGIT/peptidase/peptidase.homologsf.pruned.treefile.rec.ntg --include.species
+
+view the gene tree reconciliation and convert to PDF
+thirdkind -Iie -D 40 -f ~/lab06-$MYGIT/peptidase/peptidase.homologsf.pruned.treefile.rec.ntg.xml -o  ~/lab06-$MYGIT/peptidase/peptidase.homologsf.pruned.treefile.rec.svg
+convert  -density 150 ~/lab06-$MYGIT/peptidase/peptidase.homologsf.pruned.treefile.rec.svg ~/lab06-$MYGIT/peptidase/peptidase.homologsf.pruned.treefile.rec.pdf
+```
+### Lab 8 Protein Domain Prediction
+
+```
+git clone https://github.com/Bio312/lab08-$MYGIT
+mkdir ~/lab08-$MYGIT/peptidase && cd ~/lab08-$MYGIT/peptidase
+
+makes a copy of the unaligned sequence and removes stop codons
+sed 's/*//' ~/lab04-$MYGIT/mygene/peptidase.homologs.al.fas > ~/lab08-$MYGIT/peptidase/peptidase.homologs.al.fas
+
+RSP Blast command
+rpsblast -query ~/lab08-$MYGIT/peptidase/peptidase.homologs.fas -db ~/data/Pfam/Pfam -out ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out  -outfmt "6 qseqid qlen qstart qend evalue stitle" -evalue .0000000001
+
+copy final tree and run R-script
+cp ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.fas.treefile ~/lab08-$MYGIT/peptidase
+Rscript  --vanilla ~/lab08-$MYGIT/plotTreeAndDomains.r ~/lab08-$MYGIT/peptidase/peptidase.homologsf.al.fas.treefile ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out ~/lab08-$MYGIT/peptidase/peptidase.tree.rps.pdfRscript  --vanilla ~/lab08-$MYGIT/plotTreeAndDomains.r ~/lab08-$MYGIT/peptidase/peptidase.homologsf.al.fas.treefile ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out ~/lab08-$MYGIT/peptidase/peptidase.tree.rps.pdf
+
+delinates annotations in blast file
+mlr --inidx --ifs "\t" --opprint  cat ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out | tail -n +2 | less -S
+
+shortcut so you don't have to count annotations and calculations by hand
+cut -f 1 ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out | sort | uniq -c
+cut -f 6 ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out | sort | uniq -c
+awk '{a=$4-$3;print $1,'\t',a;}' ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out |  sort  -k2nr
+
+pulls out just the evalues and sorts
+cut -f 1,5 -d $'\t' ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out 
+cut -f 1,5 -d $'\t' ~/lab08-$MYGIT/peptidase/peptidase.rps-blast.out | sort
+```
