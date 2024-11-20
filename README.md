@@ -2,17 +2,15 @@
 extra credit repository for bio312
 ### Lab 3 BLAST SEARCH
 
-git clone https://github.com/Bio312/lab03-$MYGIT
+git clone https://github.com/Bio312/lab03-$MYGIT: 
 this clones the lab 3 repository
 
 create the BLAST database
 ```
-cd ~/lab03-$MYGIT
-```this takes you to the lab 3 folder
-
-```
+cd ~/lab03-$MYGIT:
+this takes you to the lab 3 folder
 gunzip proteomes/*.gz
-```this uncompresses the proteome
+:this uncompresses the proteome
 
 ```
 cat  proteomes/*.faa > allprotein.fas
