@@ -3,7 +3,7 @@ extra credit repository for bio312
 ### Lab 3 BLAST SEARCH
 ```
 git clone https://github.com/Bio312/lab03-$MYGIT: this clones the lab 3 repository
-
+```
 create the BLAST database
 ```
 cd ~/lab03-$MYGIT:this takes you to the lab 3 folder
@@ -14,7 +14,7 @@ makeblastdb -in allprotein.fas -dbtype prot: makes BLAST database
 mkdir ~/lab03-$MYGIT/globins
 cd ~/lab03-$MYGIT/globins
 pwd: navigate to the new directory produced
-
+```
 Download the query protein and produce a blast search
 ```
 ncbi-acc-download -F fasta -m protein "NP_000549.1"
