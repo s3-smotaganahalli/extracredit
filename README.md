@@ -28,7 +28,8 @@ cd lab04-$MYGIT
 pwd
 mkdir /mygene
 mkdir /home/bio312-user/lab04-s3-smotaganahalli/mygene
-obtains the sequences that are in the BLAST file
+
+# obtains the sequences that are in the BLAST file
 seqkit grep --pattern-file /home/bio312-user/lab03-s3-smotaganahalli/mygene/peptidase.blastp.detail.filtered.out /home/bio312-user/lab03-s3-smotaganahalli/allprotein.fas | seqkit grep -v -p "carpio" > /home/bio312-user/lab04-s3-smotaganahalli/mygene/peptidase.homologs.fas
 
 perform global multiple alignment
