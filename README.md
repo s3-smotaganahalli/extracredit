@@ -28,19 +28,32 @@ cd lab04-$MYGIT
 pwd
 mkdir /mygene
 mkdir /home/bio312-user/lab04-s3-smotaganahalli/mygene
+obtains the sequences that are in the BLAST file
 seqkit grep --pattern-file /home/bio312-user/lab03-s3-smotaganahalli/mygene/peptidase.blastp.detail.filtered.out /home/bio312-user/lab03-s3-smotaganahalli/allprotein.fas | seqkit grep -v -p "carpio" > /home/bio312-user/lab04-s3-smotaganahalli/mygene/peptidase.homologs.fas
+
+perform global multiple alignment
 muscle -align ~/lab04-$MYGIT/peptidase/peptidase.homologs.fas -output ~/lab04-$MYGIT/peptidase/peptidase.homologs.al.fas
 ls /home/bio312-user/lab04-s3-smotaganahalli/mygene/
+
+save and view
 alv -kli  ~/lab04-$MYGIT/mygene/peptidase.homologs.al.fas | less -RS
 alv -kli --majority ~/lab03-$MYGIT/peptidase/peptidase.homologs.al.fas | less -RS
+
+print to a large PDF
 Rscript --vanilla ~/lab04-$MYGIT/plotMSA.R  ~/lab04-$MYGIT/peptidase.homologs.al.fas
-alignbuddy  -al  ~/lab04-$MYGITpeptidase.homologs.al.fas
-alv -kil -w 100 ~/lab04-$MYGIT/peptidase.homologs.al.fas | aha > ~/lab04-$MYGIT/peptidase.homologs.al.html
-a2ps -r --columns=1 ~/lab04-$MYGIT/peptidase.homologs.al.html -o ~/lab04-$MYGIT/peptidase.homologs.al.ps
-ps2pdf ~/lab04-$MYGIT/peptidase.homologs.al.ps ~/lab04-$MYGIT/peptidase.homologs.al.pdf
+
+calculate length of alignment
 alignbuddy  -al  ~/lab04-$MYGIT/peptidase.homologs.al.fas
+
+length after removing any gaps
 alignbuddy -trm all  ~/lab04-$MYGIT/peptidase.homologs.al.fas | alignbuddy  -al
+
+length after removing invariants
 alignbuddy -dinv 'ambig' ~/lab04-$MYGIT/peptidase.homologs.al.fas | alignbuddy  -al
+
+average percent identity using tcoffee
 t_coffee -other_pg seq_reformat -in ~/lab04-$MYGIT/peptidase.homologs.al.fas -output sim
+
+average percent identity using alignbuddy
 alignbuddy -pi ~/lab04-$MYGIT/peptidase.homologs.al.fas | awk ' (NR>2)  { for (i=2;i<=NF  ;i++){ sum+=$i;num++} }
 ```
