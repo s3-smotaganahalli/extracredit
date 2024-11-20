@@ -57,3 +57,74 @@ t_coffee -other_pg seq_reformat -in ~/lab04-$MYGIT/peptidase.homologs.al.fas -ou
 average percent identity using alignbuddy
 alignbuddy -pi ~/lab04-$MYGIT/peptidase.homologs.al.fas | awk ' (NR>2)  { for (i=2;i<=NF  ;i++){ sum+=$i;num++} }
 ```
+### Lab 5
+```
+git clone https://github.com/Bio312/lab05-$MYGIT
+mkdir ~/lab05-$MYGIT/peptidase
+cd ~/lab05-$MYGIT/peptidase
+
+removes any sequences containing duplicate label tags
+sed 's/ /_/g'  ~/lab04-$MYGIT/peptidase/peptidase.homologs.al.fas | seqkit grep -v -r -p "dupelabel" >  ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.fas
+
+estimates ultrafast bootstrap support  levels
+iqtree -s ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.fas -bb 1000 -nt 2
+
+updates newick display
+nw_display ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.fas.treefile
+
+draws the tree unrooted
+Rscript --vanilla ~/lab05-$MYGIT/plotUnrooted.R  ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.fas.treefile ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.fas.treefile.pdf 0.4 15
+
+reroots the tree
+gotree reroot midpoint -i ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.fas.treefile -o ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.mid.treefile
+
+look at the rooted tree and make it a graphic
+nw_order -c n ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.mid.treefile  | nw_display -
+nw_order -c n ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.mid.treefile | nw_display -w 1000 -b 'opacity:0' -s  >  ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.mid.treefile.svg -
+
+coverts svg image to a pdf
+convert  ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.mid.treefile.svg
+
+Switch the view to a cladogram
+nw_nw_order -c n ~/lab05-$MYGIT/globins/globins.homologsf.al.mid.treefile | nw_topology - | nw_display -s  -w 1000 > 
+convert ~/lab05-$MYGIT/globins/globins.homologsf.al.midCl.treefile.svg ~/lab05-$MYGIT/globins/globins.homologsf.al.midCl.treefile.pdforder -c n ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.mid.treefile | nw_topology - | nw_display -s  -w 1000 > ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.midCl.treefile.svg -
+nw_display ~/lab05-$MYGIT/peptidase/peptidase.homologsf.al.midCl.treefile.svg
+
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -25608.830
+Optimal log-likelihood: -25608.823
+Proportion of invariable sites: 0.050
+Site proportion and rates:  (0.197,0.160) (0.310,0.543) (0.352,1.249) (0.091,3.965)
+Parameters optimization took 1 rounds (0.519 sec)
+BEST SCORE FOUND : -25608.823
+Creating bootstrap support values...
+Split supports printed to NEXUS file /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.splits.nex
+Total tree length: 18.897
+
+Total number of iterations: 106
+CPU time used for tree search: 310.401 sec (0h:5m:10s)
+Wall-clock time used for tree search: 157.547 sec (0h:2m:37s)
+Total CPU time used: 2021.872 sec (0h:33m:41s)
+Total wall-clock time used: 1023.575 sec (0h:17m:3s)
+
+Computing bootstrap consensus tree...
+Reading input file /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.splits.nex...
+37 taxa and 159 splits.
+Consensus tree written to /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.contree
+Reading input trees file /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.contree
+Log-likelihood of consensus tree: -25611.075
+
+Analysis results written to: 
+  IQ-TREE report:                /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.iqtree
+  Maximum-likelihood tree:       /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.treefile
+  Likelihood distances:          /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.mldist
+
+Ultrafast bootstrap approximation results written to:
+  Split support values:          /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.splits.nex
+  Consensus tree:                /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.contree
+  Screen log file:               /home/bio312-user/lab05-s3-smotaganahalli/peptidase/peptidase.homologsf.al.fas.log
+
+Date and Time: Thu Sep 26 19:32:26 2024
+```
+### Lab 6
