@@ -1,9 +1,10 @@
 # extracredit
 extra credit repository for bio312
 ### Lab 3 BLAST SEARCH
-```
-    git clone https://github.com/Bio312/lab03-$MYGIT
-```this clones the lab 3 repository
+
+git clone https://github.com/Bio312/lab03-$MYGIT
+# this clones the lab 3 repository
+
 create the BLAST database
 ```
 cd ~/lab03-$MYGIT
