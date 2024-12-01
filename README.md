@@ -68,7 +68,7 @@ t_coffee -other_pg seq_reformat -in ~/lab04-$MYGIT/peptidase.homologs.al.fas -ou
 # average percent identity using alignbuddy
 alignbuddy -pi ~/lab04-$MYGIT/peptidase.homologs.al.fas | awk ' (NR>2)  { for (i=2;i<=NF  ;i++){ sum+=$i;num++} }
 ```
-### Lab 5
+### Lab 5 Gene Family Phylogeny using IQ-TREE
 In this lab, we created a phylogenetic tree for our gene family and used IQ-TREE to handle the alignment data. This program determines the optimal substitution model, estimates branch lengths, and computes bootstrap support. The generated tree was rooted using midpoint or outgroup techniques for meaningful interpretation, and it was displayed as a cladogram or phylogram.
 ```
 git clone https://github.com/Bio312/lab05-$MYGIT
