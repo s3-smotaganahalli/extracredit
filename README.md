@@ -1,11 +1,11 @@
 # extra credit
 extra credit repository for BIO312
 ### Lab 3 Blast Search
-#The goal of this lab is to use the Basic Local Alignment Search Tool to find homologous sequences throughout the proteomes of eleven gnathostome species, such as orthologs and paralogs of your own gene family. Using Unix-based tools, we learnt how to create BLAST databases, run BLAST searches, filter results according to e-value criteria, and examine the distribution of paralogs in each species.
+The goal of this lab is to use the Basic Local Alignment Search Tool to find homologous sequences throughout the proteomes of eleven gnathostome species, such as orthologs and paralogs of your own gene family. Using Unix-based tools, we learnt how to create BLAST databases, run BLAST searches, filter results according to e-value criteria, and examine the distribution of paralogs in each species.
 ```
 git clone https://github.com/Bio312/lab03-$MYGIT: this clones the lab 3 repository
 
-#create the BLAST database
+create the BLAST database
 
 cd ~/lab03-$MYGIT
 #this takes you to the lab 3 folder
@@ -19,7 +19,7 @@ makeblastdb -in allprotein.fas -dbtype prot
 mkdir ~/lab03-$MYGIT/peptidase
 cd ~/lab03-$MYGIT/peptidase
 pwd
-#navigate to the new directory produced
+#this allows us to navigate to the new directory produced
 
 Download the query protein and produce a blast search
 
